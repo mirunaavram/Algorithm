@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+ifstream f("bfs.in");
+ofstream g("bfs.out");
+vector<int> v[100001];
+int vis[100001];
+queue<int> q;
+int cost[100001];
+int n,m,node,x,y;
+void add(int node1,int node2){
+    v[node1].push_back(node2);
+}
+void bfs(int node){
+    int a;
+    for(int i=0;i<n;i++)
+        vis[i]=0;
+    for(int i=1;i<=n;i++)
+        cost[i]=-1;
+    vis[node]=1;
+    cost[node]=0;
+    q.push(node);
+    while(!q.empty()){
+        node=q.front();
+        a=cost[node];
+        //cout<<node<<" ";
+        //cout<<a<<" ";
+        q.pop();
+        for(auto i:v[node])
+        {
+            if(vis[i]==0){
+                vis[i]=1;
+                cost[i]=a+1;
+                q.push(i);
+            }
+        }
+    }
+    for(int i=1;i<=n;i++)
+        //cout<<cost[i]<<" ";
+        g<<cost[i]<<" ";
+}
+int main(){
+    f>>n>>m>>node;
+    for(int i=0;i<m;i++){
+        f>>x>>y;
+        add(x,y);
+    }
+    bfs(node);
+}
